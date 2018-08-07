@@ -85,6 +85,14 @@ DATABASES = {
         'USER': 'postgres',
         'HOST': 'db',
         'PORT': 5432,
+    },
+        'microsoft_sql': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'sql_server',
+        'HOST': '192.168.56.122',
+        'USER': '',
+        'PASSWORD': '',
+        'PORT': '1433',
     }
 }
 
