@@ -54,3 +54,6 @@ class Vulnerability(models.Model):
     exploit_ease = models.CharField(max_length=200,blank=True)
     check_type = models.CharField(max_length=100)
     version = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Vulnerabilities"
