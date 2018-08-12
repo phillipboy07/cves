@@ -2,13 +2,29 @@ version: '3.3'
 
 services:
   db:
-    image: postgres
+    build:
+      context: ./docker/db/
+      dockerfile: Dockerfile
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'P@55w0rd'
+    ports:
+      - '1433:1433'
+    volumes:
+      - sqlserver-data:/var/opt/mssql
   web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build: 
+      context: ./docker/web/
+      dockerfile: Dockerfile
+    user: root
+    command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
       - "8000:8000"
     depends_on:
       - db
+
+volumes:
+  sqlserver-data:
+    driver: local

@@ -80,21 +80,19 @@ WSGI_APPLICATION = 'cves.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
-    },
-        'microsoft_sql': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'sql_server',
-        'HOST': '192.168.56.122',
-        'USER': '',
-        'PASSWORD': '',
-        'PORT': '1433',
+        'NAME': 'DemoData',
+        'HOST': 'db',
+        'PORT': 1433,
+        'USER': 'SA',
+        'PASSWORD': 'P@55w0rd',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 13 for SQL Server',
+        },
     }
 }
+
+DATABASE_CONNECTION_POOLING = False
 
 
 # Password validation
