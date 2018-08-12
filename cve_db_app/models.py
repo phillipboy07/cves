@@ -1,12 +1,11 @@
 from django.db import models
-
-
+from datetime import datetime
 
 # Create your models here.
 
 class Scan(models.Model):
-    date = models.DateTimeField("scan date")
-
+    date = models.DateTimeField(auto_now=True, blank=True)
+    name = models.CharField(max_length=200, blank=True)
     
 class Site(models.Model):
     name = models.CharField(max_length=200, blank=True)
@@ -21,7 +20,8 @@ class Device(models.Model):
 
 # Potential Table for the processing the CVE scan data results
 class Vulnerability(models.Model):
-    device = models.ForeignKey(Device, on_delete=models.PROTECT)
+    scan = models.ForeignKey(Scan,on_delete=models.CASCADE)
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
     plugin = models.IntegerField()
     plugin_name = models.CharField(max_length=200)
     family = models.CharField(max_length=200)
