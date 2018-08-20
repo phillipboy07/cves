@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Upload Scan</title>
+  </head>
+  <body>
+    <h1>Scan Upload</h1>
+    <p>Below is the fom to upload the scan.</p>
+    <form method="post" enctype="multipart/form-data" >
+      {% csrf_token %}
+      {{form}}
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
