@@ -1,4 +1,7 @@
-Django==2.0.6
 psycopg2
 pyodbc
 django-pyodbc-azure
+coverage
+requests
+psycopg2-binary
+Django

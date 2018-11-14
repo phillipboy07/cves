@@ -10,6 +10,11 @@ RUN apt-get update
 RUN ACCEPT_EULA=Y apt-get -y install msodbcsql
 RUN apt-get install -y unixodbc-dev
 
+#adding node.js and npm to our web dockerfile for use of use
+RUN apt-get update
+RUN apt-get install  -y nodejs
+RUN apt-get install -y npm
+
 RUN mkdir /code
 WORKDIR /code
 
