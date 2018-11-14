@@ -1,16 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Upload Scan</title>
-  </head>
-  <body>
-    <h1>Scan Upload</h1>
-    <p>Below is the fom to upload the scan.</p>
-    <form method="post" enctype="multipart/form-data" >
-      {% csrf_token %}
-      {{form}}
-      <button type="submit">Submit</button>
-    </form>
-  </body>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload Scan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+</head>
+<section class="hero is-medium">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class='control'>
+        <h1 class="title">Scan Upload</h1>
+        <p>Below is the form to upload the scan.</p>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="field">
+              
+                {{ field.label_tag }}
+              
+              <div class="control">
+                {{ field }}
+              </div>
+              {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <div class="control">
+            <button class="button is-primary" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
 </html>

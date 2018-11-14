@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.http import JsonResponse
+
 from django.template import loader
 from django.utils import timezone
 from cve_db_app.forms import ScanUploadForm
@@ -7,7 +9,7 @@ from cve_db_app.models import Scan, Device, Vulnerability, Site
 #from django.contrib.auth.models import Device
 from django.utils.dateparse import parse_date
 from datetime import datetime
-import csv
+import csv, requests, json
 
 
 # Create your views here.
@@ -100,25 +102,46 @@ def process_csv(request):
     lines = file_data.split("\n")
     return HttpResponse("Uploaded file is too big (%.2f MB)." % (lines))
 
-    
-    #loop over the lines and save them in db. If error , store as string and then display
-    # for line in lines:
-    #     fields = line.split(",")
-    #     data_dict = {}
-    #     data_dict["sku"] = fields[0]
-    #     data_dict["item_name"] = fields[1]
-    #     try:
-    #         form = PalazzoForm(data_dict)
-    #         if form.is_valid():
-    #             form.save()
-    #         else:
-    #             logging.getLogger("error_logger").error(form.errors.as_json())                                                
-    #     except Exception as e:
-    #         logging.getLogger("error_logger").error(form.errors.as_json())                    
-    #         pass
         
 
-        
+def cve_search(request):
+
+    if request.method == 'POST':
+        #insert CVE API call
+        CVE_SEARCHURL = "http://cve.circl.lu/api/cve/" + request.POST['cve-id']
+        r = requests.get(CVE_SEARCHURL)
+        if r.status_code != 200:
+            return HttpResponse('Error %s.' % r.text)
+        else:
+            parsed_json = json.loads(r.text)
+            data = {
+                'cve_id' : parsed_json['id'],
+                'cwe_id' : parsed_json['cwe'],
+                'cvss_score': parsed_json['cvss'],
+                'summary': parsed_json['summary']
+            }
+            return JsonResponse(data)
+    else:
+        return render(request,'cve_db_app/cve_search.html')
+
+
+def ajax_get_cve_info(request):
+
+        #insert CVE API call
+        CVE_SEARCHURL = "http://cve.circl.lu/api/cve/" + request.GET['cve_id'];
+        r = requests.get(CVE_SEARCHURL)
+        if r.status_code != 200:
+            return HttpResponse('Error %s.' % r.text)
+        else:
+            parsed_json = json.loads(r.text)
+            data = {
+                'cve_id' : parsed_json['id'],
+                'cwe_id' : parsed_json['cwe'],
+                'cvss_score': parsed_json['cvss'],
+                'summary': parsed_json['summary']
+            }
+            return JsonResponse(data)
+
 
 
     
